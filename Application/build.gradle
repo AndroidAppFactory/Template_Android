@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
+
+
+    defaultConfig {
+        minSdkVersion project.libMinSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionName project.versionName
+        versionCode project.versionCode
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
+
+        release {
+            proguardFiles "./../proguard-rules-common.pro"
+            shrinkResources false
+        }
+    }
+}
+dependencies {
+    api "com.bihe0832.android:common-wrapper:+"
+    kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
+}
