@@ -18,8 +18,6 @@ import com.bihe0832.android.lib.network.MobileUtil
 import com.bihe0832.android.lib.thread.ThreadManager
 import com.bihe0832.android.lib.utils.os.BuildUtils
 import com.bihe0832.android.lib.utils.os.ManufacturerUtil
-import com.bihe0832.android.lib.web.WebViewHelper
-import com.tencent.smtt.sdk.TbsPrivacyAccess
 
 /**
  *
@@ -56,15 +54,6 @@ object AppFactoryInit {
             ThreadManager.getInstance().start {
                 DownloadUtils.init(ctx, 10, ZixieContext.isDebug())
             }
-
-            ThreadManager.getInstance().start({
-                ZLog.e("Application process initCore web start")
-                WebViewHelper.init(ctx, null, Bundle().apply {
-                    putString(TbsPrivacyAccess.ConfigurablePrivacy.MODEL.name, ManufacturerUtil.MODEL)
-                    putString(TbsPrivacyAccess.ConfigurablePrivacy.ANDROID_ID.name, ZixieContext.deviceId)
-                    putString(TbsPrivacyAccess.ConfigurablePrivacy.SERIAL.name, ZixieContext.deviceId)
-                }, true)
-            }, 5)
             ZLog.d("Application process $processName initCore ManufacturerUtil:" + ManufacturerUtil.MODEL)
         }
     }
