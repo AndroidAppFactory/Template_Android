@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 project.ext.applicationID = "com.bihe0832.android.template.android"
 project.ext.applicationPrefix = "ZTAndroid"
 project.ext.routerSchema = "ztandroid"
-project.ext.applicationName = project.ext.applicationPrefix + "测试"
+project.ext.applicationName = project.ext.applicationPrefix + "Demo"
 project.ext.test_activity_name = project.ext.applicationPrefix + "调试"
 
 android {
