@@ -10,15 +10,19 @@ open class AboutFragment : com.bihe0832.android.common.about.AboutFragment() {
 
     override fun getDataList(): ArrayList<CardBaseModule> {
         return ArrayList<CardBaseModule>().apply {
-            add(SettingsItem.getUpdate(activity, UpdateInfoLiveData.value, View.OnClickListener {
-                activity?.let {
-                    UpdateManager.checkUpdateAndShowDialog(it, checkUpdateByUser = true, showIfNeedUpdate = true)
-                }
-            }))
-            addAll(super.getDataList())
+            add(
+                SettingsItem.getUpdate(
+                    UpdateInfoLiveData.value,
+                    View.OnClickListener {
+                        activity?.let {
+                            UpdateManager.checkUpdateAndShowDialog(it, checkUpdateByUser = true, showIfNeedUpdate = true)
+                        }
+                    },
+                ),
+            )
+            add(SettingsItem.getVersionList())
         }.apply {
             processLastItemDriver()
         }
     }
-
 }
