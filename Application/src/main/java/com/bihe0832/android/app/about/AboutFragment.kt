@@ -8,7 +8,7 @@ import com.bihe0832.android.lib.adapter.CardBaseModule
 
 open class AboutFragment : com.bihe0832.android.common.about.AboutFragment() {
 
-    override fun getDataList(): ArrayList<CardBaseModule> {
+    override fun getDataList(processLast: Boolean): ArrayList<CardBaseModule> {
         return ArrayList<CardBaseModule>().apply {
             add(
                 SettingsItem.getUpdate(
@@ -22,7 +22,7 @@ open class AboutFragment : com.bihe0832.android.common.about.AboutFragment() {
             )
             add(SettingsItem.getVersionList())
         }.apply {
-            processLastItemDriver()
+            processLastItemDriver(processLast)
         }
     }
 }

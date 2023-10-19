@@ -55,10 +55,10 @@ object AppFactoryInit {
 
             RouterHelper.initRouter()
             AAFPermissionManager.initPermission()
-            AAFMessageManager.initModule(application)
             ThreadManager.getInstance().start {
                 DownloadUtils.init(ctx, 10, ZixieContext.isDebug())
             }
+            AAFMessageManager.initModule(application)
             ZLog.d("Application process $processName initCore ManufacturerUtil:" + ManufacturerUtil.MODEL)
         }
     }
@@ -66,7 +66,7 @@ object AppFactoryInit {
     @Synchronized
     private fun initExtra(application: android.app.Application) {
         // 初始化网络变量和监听
-        NetworkChangeManager.init(application.applicationContext, true)
+        NetworkChangeManager.init(application.applicationContext, getNetType = true, getSSID = true, getBssID = true)
         // 监听信号变化，统一到MobileUtil
         MobileUtil.registerMobileSignalListener(application.applicationContext)
         ShakeManager.init(application.applicationContext)

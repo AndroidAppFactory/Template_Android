@@ -7,8 +7,8 @@ import com.bihe0832.android.common.message.base.MessageManager
 import com.bihe0832.android.common.message.data.MessageInfoItem
 import com.bihe0832.android.lib.theme.ThemeResourcesManager
 import com.bihe0832.android.lib.thread.ThreadManager
-import com.bihe0832.android.lib.ui.dialog.OnDialogListener
 import com.bihe0832.android.lib.ui.dialog.blockdialog.DependenceBlockDialogManager
+import com.bihe0832.android.lib.ui.dialog.callback.OnDialogListener
 
 /**
  *
@@ -29,26 +29,36 @@ object AAFMessageManager : MessageManager() {
     }
 
     override fun fetchNewMsg() {
-        fetchMessageByURLList(AAFNetWorkApi.getCommonURL(ThemeResourcesManager.getString(R.string.message_url)
-                ?: "", ""))
+        fetchMessageByURLList(
+            AAFNetWorkApi.getCommonURL(
+                ThemeResourcesManager.getString(R.string.message_url)
+                    ?: "",
+                "",
+            ),
+        )
     }
 
     fun showMessage(activity: Activity, messageInfoItem: MessageInfoItem, showFace: Boolean) {
         mDependenceBlockDialogManager.getDependentTaskManager().addTask(messageInfoItem.messageID, {
             ThreadManager.getInstance().runOnUIThread {
-                showMessage(activity, messageInfoItem, showFace, object : OnDialogListener {
-                    override fun onPositiveClick() {
-                        mDependenceBlockDialogManager.getDependentTaskManager().finishTask(messageInfoItem.messageID)
-                    }
+                showMessage(
+                    activity,
+                    messageInfoItem,
+                    showFace,
+                    object : OnDialogListener {
+                        override fun onPositiveClick() {
+                            mDependenceBlockDialogManager.getDependentTaskManager().finishTask(messageInfoItem.messageID)
+                        }
 
-                    override fun onNegativeClick() {
-                        onPositiveClick()
-                    }
+                        override fun onNegativeClick() {
+                            onPositiveClick()
+                        }
 
-                    override fun onCancel() {
-                        onPositiveClick()
-                    }
-                })
+                        override fun onCancel() {
+                            onPositiveClick()
+                        }
+                    },
+                )
             }
         }, mutableListOf())
     }

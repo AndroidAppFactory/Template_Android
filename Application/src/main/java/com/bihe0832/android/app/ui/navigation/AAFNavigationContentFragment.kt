@@ -5,6 +5,8 @@ import com.bihe0832.android.app.message.AAFMessageManager
 import com.bihe0832.android.app.router.RouterConstants
 import com.bihe0832.android.common.about.R
 import com.bihe0832.android.common.main.CommonNavigationContentFragment
+import com.bihe0832.android.common.permission.settings.PermissionFragment
+import com.bihe0832.android.common.permission.settings.PermissionItem
 import com.bihe0832.android.common.settings.SettingsItem
 import com.bihe0832.android.framework.router.RouterAction
 import com.bihe0832.android.framework.update.UpdateInfoLiveData
@@ -18,48 +20,50 @@ import com.bihe0832.android.lib.theme.ThemeResourcesManager
  * Description: Description
  *
  */
-open class AAFNavigationContentFragment : CommonNavigationContentFragment() {
+class AAFNavigationContentFragment : CommonNavigationContentFragment() {
 
     override fun initView(view: View) {
         super.initView(view)
         AAFMessageManager.getMessageLiveData().observe(this) { t ->
-            changeMessageRedDot(ThemeResourcesManager.getString(R.string.settings_message_title), AAFMessageManager.getUnreadNum())
+            changeMessageRedDot(
+                ThemeResourcesManager.getString(R.string.settings_message_title),
+                AAFMessageManager.getUnreadNum(),
+            )
         }
         UpdateInfoLiveData.observe(this) { t ->
             changeUpdateRedDot(SettingsItem.getAboutTitle(), t, false)
         }
     }
 
-    override fun getDataList(): ArrayList<CardBaseModule> {
+    override fun getDataList(processLast: Boolean): ArrayList<CardBaseModule> {
         return ArrayList<CardBaseModule>().apply {
-            add(SettingsItem.getAboutAPP(UpdateInfoLiveData.value) {
-                RouterAction.openPageByRouter(RouterConstants.MODULE_NAME_BASE_ABOUT)
-            })
-           if (AAFMessageManager.getUnreadNum() > 0) {
-                add(SettingsItem.getMessage(AAFMessageManager.getUnreadNum()) {
-                    RouterAction.openPageByRouter(RouterConstants.MODULE_NAME_MESSAGE)
-                })
+            add(
+                SettingsItem.getAboutAPP(UpdateInfoLiveData.value) {
+                    RouterAction.openPageByRouter(RouterConstants.MODULE_NAME_BASE_ABOUT)
+                },
+            )
+            if (AAFMessageManager.getUnreadNum() > 0) {
+                add(
+                    SettingsItem.getMessage(AAFMessageManager.getUnreadNum()) {
+                        RouterAction.openPageByRouter(RouterConstants.MODULE_NAME_MESSAGE)
+                    },
+                )
             } else {
-                add(SettingsItem.getMessage(-1) {
-                    RouterAction.openPageByRouter(RouterConstants.MODULE_NAME_MESSAGE)
-                })
+                add(
+                    SettingsItem.getMessage(-1) {
+                        RouterAction.openPageByRouter(RouterConstants.MODULE_NAME_MESSAGE)
+                    },
+                )
             }
-            addAll(getBaseDataList())
-        }.apply {
-            processLastItemDriver()
-        }
-    }
 
-    fun getBaseDataList(): ArrayList<CardBaseModule> {
-        return ArrayList<CardBaseModule>().apply {
+            add(PermissionItem.getPermission(PermissionFragment::class.java))
             add(SettingsItem.getFeedbackURL())
             add(SettingsItem.getShareAPP(true))
-            add(SettingsItem.getVersionList())
+            addAll(super.getDataList(false))
+            add(SettingsItem.getClearCache(activity!!))
             add(SettingsItem.getZixie())
-            add(SettingsItem.getDebug())
         }.apply {
-            processLastItemDriver()
+            processLastItemDriver(processLast)
         }
     }
-
 }
