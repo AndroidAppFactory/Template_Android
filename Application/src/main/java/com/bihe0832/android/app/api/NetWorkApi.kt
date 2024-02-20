@@ -5,8 +5,10 @@ import com.bihe0832.android.framework.ZixieContext
 import com.bihe0832.android.framework.constant.Constants
 import com.bihe0832.android.lib.gson.JsonHelper
 import com.bihe0832.android.lib.okhttp.wrapper.OkHttpWrapper
+import com.bihe0832.android.lib.okhttp.wrapper.getRequestBodyByJsonString
 import com.bihe0832.android.lib.request.URLUtils
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -66,4 +68,7 @@ object AAFNetWorkApi {
         return result
     }
 
+    fun getRequestBody(): RequestBody {
+        return getRequestBodyByJsonString(getRequestPara().toString())
+    }
 }

@@ -5,9 +5,8 @@ import com.bihe0832.android.app.message.AAFMessageManager
 import com.bihe0832.android.app.router.RouterConstants
 import com.bihe0832.android.common.about.R
 import com.bihe0832.android.common.main.CommonNavigationContentFragment
-import com.bihe0832.android.common.permission.settings.PermissionFragment
-import com.bihe0832.android.common.permission.settings.PermissionItem
 import com.bihe0832.android.common.settings.SettingsItem
+import com.bihe0832.android.framework.ZixieContext
 import com.bihe0832.android.framework.router.RouterAction
 import com.bihe0832.android.framework.update.UpdateInfoLiveData
 import com.bihe0832.android.lib.adapter.CardBaseModule
@@ -20,7 +19,7 @@ import com.bihe0832.android.lib.theme.ThemeResourcesManager
  * Description: Description
  *
  */
-class AAFNavigationContentFragment : CommonNavigationContentFragment() {
+open class AAFNavigationContentFragment : CommonNavigationContentFragment() {
 
     override fun initView(view: View) {
         super.initView(view)
@@ -55,13 +54,22 @@ class AAFNavigationContentFragment : CommonNavigationContentFragment() {
                     },
                 )
             }
+            addAll(getBaseDataList(processLast))
+        }.apply {
+            processLastItemDriver(processLast)
+        }
+    }
 
-            add(PermissionItem.getPermission(PermissionFragment::class.java))
+    fun getBaseDataList(processLast: Boolean): ArrayList<CardBaseModule> {
+        return ArrayList<CardBaseModule>().apply {
             add(SettingsItem.getFeedbackURL())
             add(SettingsItem.getShareAPP(true))
-            addAll(super.getDataList(false))
+            add(SettingsItem.getVersionList())
             add(SettingsItem.getClearCache(activity!!))
             add(SettingsItem.getZixie())
+            if (!ZixieContext.isOfficial()) {
+                add(SettingsItem.getDebug())
+            }
         }.apply {
             processLastItemDriver(processLast)
         }

@@ -103,6 +103,6 @@ android {
 
 dependencies {
     api project(':Application')
-    api "com.bihe0832.android:common-debug:6.6.8"
+    api "com.bihe0832.android:common-debug:6.9.0"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }
