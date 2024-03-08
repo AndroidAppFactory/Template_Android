@@ -31,6 +31,6 @@ android {
     }
 }
 dependencies {
-    api "com.bihe0832.android:common-wrapper-min:6.9.4"
+    api "com.bihe0832.android:common-wrapper-min:6.9.7"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }
