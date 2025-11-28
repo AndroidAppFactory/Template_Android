@@ -29,8 +29,19 @@ android {
             shrinkResources false
         }
     }
+    
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.lifecycle:lifecycle-livedata-core:2.6.0")
+        }
+    }
 }
+
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
-    api "com.bihe0832.android:common-wrapper:6.21.9"
+    api "com.bihe0832.android:common-wrapper:8.0.0"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }
