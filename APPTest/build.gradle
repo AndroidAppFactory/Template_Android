@@ -121,6 +121,6 @@ kapt {
 
 dependencies {
     api project(':Application')
-    api "com.bihe0832.android:common-debug:8.0.0"
+    api "com.bihe0832.android:common-compose-debug:8.0.0"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }

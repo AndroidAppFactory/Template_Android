@@ -28,7 +28,7 @@ object AAFLoggerFile {
     }
 
     fun logFile(module: String, msg: String) {
-        LoggerFile.logFile(LoggerFile.getZixieFileLogPathByModule(module), msg)
+        LoggerFile.log(LoggerFile.getZixieFileLogPathByModule(module), msg)
     }
 
     fun openLog(module: String) {

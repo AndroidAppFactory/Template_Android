@@ -28,7 +28,11 @@ object UpdateManager {
 
     private val TAG = "UpdateHelper-> "
 
-    fun checkUpdateAndShowDialog(activity: Activity, checkUpdateByUser: Boolean, showIfNeedUpdate: Boolean) {
+    fun checkUpdateAndShowDialog(
+        activity: Activity,
+        checkUpdateByUser: Boolean,
+        showIfNeedUpdate: Boolean
+    ) {
         fetchUpdate(activity, {
             getInstance().runOnUIThread {
                 UpdateInfoLiveData.value = it
@@ -41,45 +45,52 @@ object UpdateManager {
         })
     }
 
-    private fun fetchUpdate(activity: Activity, successAction: (info: UpdateDataFromCloud) -> Unit, failedAction: () -> Unit) {
-        HTTPServer.getInstance()
-                .doRequestAsync(
-                    AAFNetWorkApi.getCommonURL(ThemeResourcesManager.getString(R.string.update_url) ?: "", ""),
-                ) { statusCode, updateString ->
-                    AAFLoggerFile.logUpdate("statusCode:$statusCode")
-                    AAFLoggerFile.logUpdate("updateString:$updateString")
-                    if (HttpURLConnection.HTTP_OK == statusCode && !TextUtils.isEmpty(updateString)) {
-                        try {
-                            //                            var updateString = "{\n" +
-                            //                                    "  \"showRedMaxVersionCode\": 2,\n" +
-                            //                                    "  \"needUpdateMinVersionCode\": 2,\n" +
-                            //                                    "  \"forceUpdateMinVersionCode\": 0,\n" +
-                            //                                    "  \"forceUpdateList\": \" \",\n" +
-                            //                                    "  \"needUpdateList\": \" \",\n" +
-                            //                                    "  \"newVersionName\": \"1.1.0\",\n" +
-                            //                                    "  \"newVersionCode\": 2,\n" +
-                            //                                    "  \"newVersionInfo\": \"1. 全新UI <BR> 2. 支持卸载\",\n" +
-                            //                                    "  \"newVersionMD5\": \"7a413381aa84c837cc5de1577aec23a9\",\n" +
-                            //                                    "  \"newVersionURL\": \"https://github.com/bihe0832/AndroidAppFactory-Sample/releases/download/V1.0.0.1/ZAPK_V1.0.0_1_release.apk\"\n" +
-                            //                                    "}"
+    private fun fetchUpdate(
+        activity: Activity,
+        successAction: (info: UpdateDataFromCloud) -> Unit,
+        failedAction: () -> Unit
+    ) {
+        HTTPServer.getInstance().doRequest(
+            AAFNetWorkApi.getCommonURL(
+                ThemeResourcesManager.getString(R.string.update_url) ?: "",
+                ""
+            ),
+        ) { statusCode, updateString ->
+            AAFLoggerFile.logUpdate("statusCode:$statusCode")
+            AAFLoggerFile.logUpdate("updateString:$updateString")
+            if (HttpURLConnection.HTTP_OK == statusCode && !TextUtils.isEmpty(updateString)) {
+                try {
+                    //                            var updateString = "{\n" +
+                    //                                    "  \"showRedMaxVersionCode\": 2,\n" +
+                    //                                    "  \"needUpdateMinVersionCode\": 2,\n" +
+                    //                                    "  \"forceUpdateMinVersionCode\": 0,\n" +
+                    //                                    "  \"forceUpdateList\": \" \",\n" +
+                    //                                    "  \"needUpdateList\": \" \",\n" +
+                    //                                    "  \"newVersionName\": \"1.1.0\",\n" +
+                    //                                    "  \"newVersionCode\": 2,\n" +
+                    //                                    "  \"newVersionInfo\": \"1. 全新UI <BR> 2. 支持卸载\",\n" +
+                    //                                    "  \"newVersionMD5\": \"7a413381aa84c837cc5de1577aec23a9\",\n" +
+                    //                                    "  \"newVersionURL\": \"https://github.com/bihe0832/AndroidAppFactory-Sample/releases/download/V1.0.0.1/ZAPK_V1.0.0_1_release.apk\"\n" +
+                    //                                    "}"
 
-                            var updateInfo = JsonHelper.fromJson(updateString, UpdateDataFromCloud::class.java)
-                            if (null == updateInfo) {
-                                ZLog.d("$TAG:updateInfo null:")
-                                failedAction()
-                            } else {
-                                updateInfo.setUpdateType()
-                                ZLog.d("$TAG:fetchUpdate: $statusCode $updateString updateType:${updateInfo.updateType}")
-                                successAction(updateInfo)
-                            }
-                        } catch (e: Exception) {
-                            ZLog.d("$TAG:fetchUpdate:" + e.message)
-                            failedAction()
-                        }
-                    } else {
-                        ZLog.d("$TAG:fetchUpdate: $statusCode $updateString")
+                    var updateInfo =
+                        JsonHelper.fromJson(updateString, UpdateDataFromCloud::class.java)
+                    if (null == updateInfo) {
+                        ZLog.d("$TAG:updateInfo null:")
                         failedAction()
+                    } else {
+                        updateInfo.setUpdateType()
+                        ZLog.d("$TAG:fetchUpdate: $statusCode $updateString updateType:${updateInfo.updateType}")
+                        successAction(updateInfo)
                     }
+                } catch (e: Exception) {
+                    ZLog.d("$TAG:fetchUpdate:" + e.message)
+                    failedAction()
                 }
+            } else {
+                ZLog.d("$TAG:fetchUpdate: $statusCode $updateString")
+                failedAction()
+            }
+        }
     }
 }

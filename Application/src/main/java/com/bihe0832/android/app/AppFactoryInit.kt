@@ -11,6 +11,7 @@ import com.bihe0832.android.framework.ZixieContext
 import com.bihe0832.android.framework.ZixieCoreInit
 import com.bihe0832.android.framework.privacy.AgreementPrivacy
 import com.bihe0832.android.lib.device.shake.ShakeManager
+import com.bihe0832.android.lib.download.DownloadClientConfig
 import com.bihe0832.android.lib.download.wrapper.DownloadFileUtils
 import com.bihe0832.android.lib.log.ZLog
 import com.bihe0832.android.lib.network.MobileUtil
@@ -54,9 +55,9 @@ object AppFactoryInit {
             Log.e(ZixieCoreInit.TAG, "———————————————————————— 设备信息 ————————————————————————")
 
             RouterHelper.initRouter()
-            AAFPermissionManager.initPermission()
+            AAFPermissionManager.initPermission(ctx)
             ThreadManager.getInstance().start {
-                DownloadFileUtils.init(ctx, 10, ZixieContext.isDebug())
+                DownloadFileUtils.init(ctx, 10, DownloadClientConfig.createDefault(), ZixieContext.isDebug())
             }
             AAFMessageManager.initModule(application)
             ZLog.d("Application process $processName initCore ManufacturerUtil:" + ManufacturerUtil.MODEL)
@@ -69,7 +70,6 @@ object AppFactoryInit {
         NetworkChangeManager.init(application.applicationContext, getNetType = true, getSSID = true, getBssID = true)
         // 监听信号变化，统一到MobileUtil
         MobileUtil.registerMobileSignalListener(application.applicationContext)
-        ShakeManager.init(application.applicationContext)
     }
 
     fun initAll(application: android.app.Application) {

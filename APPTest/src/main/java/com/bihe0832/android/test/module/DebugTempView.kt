@@ -1,15 +1,34 @@
 package com.bihe0832.android.test.module
 
-import com.bihe0832.android.common.debug.module.DebugEnvFragment
-import com.bihe0832.android.common.debug.view.DebugCommonPanel
-import com.bihe0832.android.lib.adapter.CardBaseModule
+import android.app.Activity
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import com.bihe0832.android.common.compose.debug.item.DebugItem
+import com.bihe0832.android.common.compose.debug.ui.DebugContent
+import com.bihe0832.android.lib.utils.intent.IntentUtils
 
-class DebugTempView : DebugCommonPanel() {
-
-    override fun getDataList(): ArrayList<CardBaseModule> {
-        return ArrayList<CardBaseModule>().apply {
-            add(getDebugFragmentItemData("环境切换", DebugEnvFragment::class.java))
-            add(getDebugItemData("测试日志") { showInfo("测试日志") })
+@Composable
+fun DebugTempView() {
+    DebugContent {
+        val activity = LocalContext.current as? Activity
+        DebugItem("简单测试函数") {
+            testFunc()
+        }
+        DebugItem("通用测试预处理") {
+            preTest()
+        }
+        DebugItem("APP设置") {
+            activity?.let {
+                IntentUtils.startAppDetailSettings(it)
+            }
         }
     }
+}
+
+private fun preTest() {
+
+}
+
+private fun testFunc() {
+
 }
