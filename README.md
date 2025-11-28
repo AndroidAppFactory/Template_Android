@@ -11,7 +11,7 @@
   - "编译检查"
   - "如何添加依赖"
 
-详细使用指南请参考：[CodeBuddyForAAF](https://github.com/bihe0832/CodeBuddyForAAF)
+详细使用指南请参考：[CodeBuddyForAAF](https://github.com/AndroidAppFactory/CodeBuddyForAAF)
 
 ## 相关链接
 
