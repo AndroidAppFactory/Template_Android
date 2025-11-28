@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 // 不同类型的包，仅仅修改下面两项即可，其余内容保持一致
 project.ext.applicationID = "com.bihe0832.android.template.android"
@@ -89,6 +88,15 @@ android {
             shrinkResources false
         }
     }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.7"
+    }
+
     android.applicationVariants.all { variant ->
         def finalFileName = applicationPrefix + "_V${defaultConfig.versionName}_${defaultConfig.versionCode}"
         variant.outputs.all {
@@ -103,6 +111,6 @@ android {
 
 dependencies {
     api project(':Application')
-    api "com.bihe0832.android:common-debug:6.21.12"
-    kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
+    api "com.bihe0832.android:common-debug:8.0.0"
+    kapt "com.bihe0832.android:lib-router-compiler:6.6.17"
 }

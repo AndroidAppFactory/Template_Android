@@ -16,6 +16,7 @@
         <activity
                 android:name=".DebugSplashActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden"
+                android:exported="true"
                 android:screenOrientation="portrait"
                 android:theme="@style/AAF.ActivityTheme.Fullscreen">
             <intent-filter>
@@ -27,6 +28,7 @@
         <activity
                 android:name="com.bihe0832.android.test.DebugMainActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden"
+                android:exported="false"
                 android:label="@string/test_activity_name"
                 android:screenOrientation="portrait"
                 android:theme="@style/AAF.ActivityTheme">
@@ -39,6 +41,7 @@
         <activity
                 android:name=".module.DebugLogActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden"
+                android:exported="false"
                 android:screenOrientation="portrait"
                 android:theme="@style/AAF.ActivityTheme" />
     </application>
