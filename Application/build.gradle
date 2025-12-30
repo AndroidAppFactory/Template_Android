@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    namespace 'com.bihe0832.android.app'
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
 
@@ -12,6 +13,15 @@ android {
         targetSdkVersion project.targetSdkVersion
         versionName project.versionName
         versionCode project.versionCode
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
     }
 
     lintOptions {
@@ -42,6 +52,6 @@ kapt {
 }
 
 dependencies {
-    api "com.bihe0832.android:common-wrapper:8.0.6"
+    api "com.bihe0832.android:common-wrapper:8.1.2"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }
