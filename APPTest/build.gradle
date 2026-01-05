@@ -25,6 +25,9 @@ android {
     }
 
     packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
         project.ndk_abiFilters_project.split(",").each { abiItem ->
             def finalDoNotStripFileName = "*/" + abiItem + "/*.so"
             doNotStrip finalDoNotStripFileName
