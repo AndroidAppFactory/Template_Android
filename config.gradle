@@ -40,6 +40,6 @@ ext {
     ]
 
     //使用kotlin版本
-    kotlin_version = '1.9.0'
-    compose_version = '1.5.1'
+    kotlin_version = '1.9.22'
+    compose_version = '1.5.10'
 }

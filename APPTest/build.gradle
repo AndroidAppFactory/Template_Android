@@ -24,24 +24,15 @@ android {
 
     }
 
-    packagingOptions {
+    packaging {
         jniLibs {
             useLegacyPackaging = true
-        }
-        project.ndk_abiFilters_project.split(",").each { abiItem ->
-            def finalDoNotStripFileName = "*/" + abiItem + "/*.so"
-            doNotStrip finalDoNotStripFileName
-        }
-
-        project.ndk_abiFilters_all.split(",").each { abiItem ->
-            project.pickFirstList.each { item ->
-                def finalPickFirstFileName = "lib/" + abiItem + "/" + item
-                pickFirst finalPickFirstFileName
+            pickFirsts += project.ndk_abiFilters_all.split(",").collectMany { abiItem ->
+                project.pickFirstList.collect { item -> "lib/${abiItem}/${item}" }
             }
         }
-
-        project.excludeList.each { item ->
-            exclude item
+        resources {
+            excludes += project.excludeList
         }
     }
 
@@ -54,7 +45,7 @@ android {
         jvmTarget = '17'
     }
 
-    lintOptions {
+    lint {
         abortOnError false
     }
 
@@ -134,6 +125,6 @@ kapt {
 
 dependencies {
     api project(':Application')
-    api "com.bihe0832.android:common-compose-debug:8.1.2"
+    api "com.bihe0832.android:common-compose-debug:8.2.0"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }

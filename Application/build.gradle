@@ -24,7 +24,7 @@ android {
         jvmTarget = '17'
     }
 
-    lintOptions {
+    lint {
         abortOnError false
     }
 
@@ -52,6 +52,6 @@ kapt {
 }
 
 dependencies {
-    api "com.bihe0832.android:common-wrapper:8.1.2"
+    api "com.bihe0832.android:common-wrapper:8.2.0"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }

@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.2'
         classpath "com.bihe0832.android:GradleDependenciesCheck:4.1.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
     }
 }
 
@@ -29,6 +29,25 @@ allprojects {
         maven { url "https://s01.oss.sonatype.org/content/groups/public" }
         flatDir {
             dirs './../libs/'
+        }
+    }
+}
+
+subprojects {
+    afterEvaluate { Project subproject ->
+        // AGP 8.0+ 需要统一 Java 版本
+        if (subproject.hasProperty('android')) {
+            subproject.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+        subproject.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
         }
     }
 }
