@@ -17,6 +17,10 @@ import com.bihe0832.android.test.module.DebugLogActivity
 import com.bihe0832.android.test.module.DebugRouterView
 import com.bihe0832.android.test.module.DebugTempView
 
+/**
+ * 重要提示！！！
+ * 默认使用的是Android的 Default Debug Keystore，在安装时会提示有安全风险，使用自己的 Release Keystore 即可消除！！！
+ */
 @APPMain
 @Module(RouterConstants.MODULE_NAME_DEBUG)
 class DebugMainActivity : DebugComposeMainActivity() {
