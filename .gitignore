@@ -65,3 +65,5 @@ CMakeCache.txt
 CMakeFiles/
 Makefile
 cmake_install.cmake
+# CodeBuddy 配置目录
+.codebuddy/
