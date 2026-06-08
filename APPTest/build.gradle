@@ -2,12 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 // 不同类型的包，仅仅修改下面两项即可，其余内容保持一致
-project.ext.applicationID = "com.bihe0832.android.template.android"
-project.ext.applicationPrefix = "ZTAndroid"
-project.ext.routerSchema = "ztandroid"
+project.ext.applicationID = "com.bihe0832.android.template.aaf"
+project.ext.applicationPrefix = "ZTAAF"
+project.ext.routerSchema = "ztaaf"
 project.ext.applicationName = project.ext.applicationPrefix + "Demo"
 project.ext.test_activity_name = project.ext.applicationPrefix + "调试"
-
 android {
     namespace project.ext.applicationID
     compileSdkVersion project.compileSdkVersion
@@ -36,6 +35,10 @@ android {
         }
     }
 
+    lint {
+        abortOnError false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -45,8 +48,12 @@ android {
         jvmTarget = '17'
     }
 
-    lint {
-        abortOnError false
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion project.compose_version
     }
 
     signingConfigs {
@@ -92,15 +99,6 @@ android {
             shrinkResources false
         }
     }
-
-    buildFeatures {
-        compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = project.compose_version
-    }
-
     android.applicationVariants.all { variant ->
         def finalFileName = applicationPrefix + "_V${defaultConfig.versionName}_${defaultConfig.versionCode}"
         variant.outputs.all {
@@ -118,13 +116,11 @@ android {
         }
     }
 }
-
 kapt {
     correctErrorTypes = true
 }
-
 dependencies {
     api project(':Application')
-    api "com.bihe0832.android:common-compose-debug:8.5.3"
+    api "com.bihe0832.android:common-compose-debug:8.5.7"
     kapt "com.bihe0832.android:lib-router-compiler:5.1.7"
 }
